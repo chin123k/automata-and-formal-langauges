@@ -1,0 +1,163 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> for_loop
+Rule 1     for_loop -> FOR IDENTIFIER IN range_expr COLON
+Rule 2     range_expr -> RANGE LPAREN NUMBER RPAREN
+Rule 3     range_expr -> RANGE LPAREN NUMBER COMMA NUMBER RPAREN
+Rule 4     range_expr -> RANGE LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+Terminals, with rules where they appear
+
+COLON                : 1
+COMMA                : 3 4 4
+FOR                  : 1
+IDENTIFIER           : 1
+IN                   : 1
+LPAREN               : 2 3 4
+NUMBER               : 2 3 3 4 4 4
+RANGE                : 2 3 4
+RPAREN               : 2 3 4
+error                : 
+
+Nonterminals, with rules where they appear
+
+for_loop             : 0
+range_expr           : 1
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . for_loop
+    (1) for_loop -> . FOR IDENTIFIER IN range_expr COLON
+
+    FOR             shift and go to state 2
+
+    for_loop                       shift and go to state 1
+
+state 1
+
+    (0) S' -> for_loop .
+
+
+
+state 2
+
+    (1) for_loop -> FOR . IDENTIFIER IN range_expr COLON
+
+    IDENTIFIER      shift and go to state 3
+
+
+state 3
+
+    (1) for_loop -> FOR IDENTIFIER . IN range_expr COLON
+
+    IN              shift and go to state 4
+
+
+state 4
+
+    (1) for_loop -> FOR IDENTIFIER IN . range_expr COLON
+    (2) range_expr -> . RANGE LPAREN NUMBER RPAREN
+    (3) range_expr -> . RANGE LPAREN NUMBER COMMA NUMBER RPAREN
+    (4) range_expr -> . RANGE LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    RANGE           shift and go to state 6
+
+    range_expr                     shift and go to state 5
+
+state 5
+
+    (1) for_loop -> FOR IDENTIFIER IN range_expr . COLON
+
+    COLON           shift and go to state 7
+
+
+state 6
+
+    (2) range_expr -> RANGE . LPAREN NUMBER RPAREN
+    (3) range_expr -> RANGE . LPAREN NUMBER COMMA NUMBER RPAREN
+    (4) range_expr -> RANGE . LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    LPAREN          shift and go to state 8
+
+
+state 7
+
+    (1) for_loop -> FOR IDENTIFIER IN range_expr COLON .
+
+    $end            reduce using rule 1 (for_loop -> FOR IDENTIFIER IN range_expr COLON .)
+
+
+state 8
+
+    (2) range_expr -> RANGE LPAREN . NUMBER RPAREN
+    (3) range_expr -> RANGE LPAREN . NUMBER COMMA NUMBER RPAREN
+    (4) range_expr -> RANGE LPAREN . NUMBER COMMA NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 9
+
+
+state 9
+
+    (2) range_expr -> RANGE LPAREN NUMBER . RPAREN
+    (3) range_expr -> RANGE LPAREN NUMBER . COMMA NUMBER RPAREN
+    (4) range_expr -> RANGE LPAREN NUMBER . COMMA NUMBER COMMA NUMBER RPAREN
+
+    RPAREN          shift and go to state 10
+    COMMA           shift and go to state 11
+
+
+state 10
+
+    (2) range_expr -> RANGE LPAREN NUMBER RPAREN .
+
+    COLON           reduce using rule 2 (range_expr -> RANGE LPAREN NUMBER RPAREN .)
+
+
+state 11
+
+    (3) range_expr -> RANGE LPAREN NUMBER COMMA . NUMBER RPAREN
+    (4) range_expr -> RANGE LPAREN NUMBER COMMA . NUMBER COMMA NUMBER RPAREN
+
+    NUMBER          shift and go to state 12
+
+
+state 12
+
+    (3) range_expr -> RANGE LPAREN NUMBER COMMA NUMBER . RPAREN
+    (4) range_expr -> RANGE LPAREN NUMBER COMMA NUMBER . COMMA NUMBER RPAREN
+
+    RPAREN          shift and go to state 14
+    COMMA           shift and go to state 13
+
+
+state 13
+
+    (4) range_expr -> RANGE LPAREN NUMBER COMMA NUMBER COMMA . NUMBER RPAREN
+
+    NUMBER          shift and go to state 15
+
+
+state 14
+
+    (3) range_expr -> RANGE LPAREN NUMBER COMMA NUMBER RPAREN .
+
+    COLON           reduce using rule 3 (range_expr -> RANGE LPAREN NUMBER COMMA NUMBER RPAREN .)
+
+
+state 15
+
+    (4) range_expr -> RANGE LPAREN NUMBER COMMA NUMBER COMMA NUMBER . RPAREN
+
+    RPAREN          shift and go to state 16
+
+
+state 16
+
+    (4) range_expr -> RANGE LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .
+
+    COLON           reduce using rule 4 (range_expr -> RANGE LPAREN NUMBER COMMA NUMBER COMMA NUMBER RPAREN .)
+
